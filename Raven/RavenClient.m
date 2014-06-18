@@ -172,6 +172,8 @@ void exceptionHandler(NSException *exception) {
         [stacktrace addObject:[NSDictionary dictionaryWithObjectsAndKeys:call, @"function", nil]];
     }
 
+    self.extra = @{@"Long Description":message};
+
     NSDictionary *data = [self prepareDictionaryForMessage:message
                                                      level:kRavenLogLevelDebugFatal
                                                    culprit:nil
@@ -239,9 +241,7 @@ void exceptionHandler(NSException *exception) {
                                    stacktrace:(NSArray *)stacktrace
                                     exception:(NSDictionary *)exceptionDict {
     NSDictionary *stacktraceDict = [NSDictionary dictionaryWithObjectsAndKeys:stacktrace, @"frames", nil];
-
-    self.extra = @{@"Long Description":message};
-
+    
     return [NSDictionary dictionaryWithObjectsAndKeys:
             [self generateUUID], @"event_id",
             self.config.projectId, @"project",
