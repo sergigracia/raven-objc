@@ -240,16 +240,16 @@ void exceptionHandler(NSException *exception) {
                                     exception:(NSDictionary *)exceptionDict {
     NSDictionary *stacktraceDict = [NSDictionary dictionaryWithObjectsAndKeys:stacktrace, @"frames", nil];
 
+    self.extra = @{@"Long Description":message};
+
     return [NSDictionary dictionaryWithObjectsAndKeys:
             [self generateUUID], @"event_id",
             self.config.projectId, @"project",
             [self.dateFormatter stringFromDate:[NSDate date]], @"timestamp",
             kRavenLogLevelArray[level], @"level",
             @"objc", @"platform",
-
             self.extra, @"extra",
             self.tags, @"tags",
-
             message, @"message",
             culprit ?: @"", @"culprit",
             stacktraceDict, @"stacktrace",
